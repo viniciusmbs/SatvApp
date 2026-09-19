@@ -75,22 +75,45 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     }, 4000);
   }, []);
 
-  // DISPARO DO INTENT DO MX PLAYER (FIRESTICK / ANDROID)
+  // DISPARO AUTOMÁTICO DO INTENT DO MX PLAYER (FIRESTICK / ANDROID)
   const openInMxPlayer = useCallback((streamUrl: string, channelName: string) => {
-    soundService.playSelect();
     const mxIntent = `intent:${streamUrl}#Intent;package=com.mxtech.videoplayer.ad;type=video/*;S.title=${encodeURIComponent(
+      channelName
+    )};end`;
+    const genericIntent = `intent:${streamUrl}#Intent;action=android.intent.action.VIEW;type=video/*;S.title=${encodeURIComponent(
       channelName
     )};end`;
 
     setMxTriggeredNotice(true);
-    setTimeout(() => setMxTriggeredNotice(false), 3500);
+    setTimeout(() => setMxTriggeredNotice(false), 3000);
 
     try {
       window.location.href = mxIntent;
+      setTimeout(() => {
+        try {
+          window.location.href = genericIntent;
+        } catch {
+          // ignore
+        }
+      }, 1000);
     } catch {
-      // ignore
+      try {
+        window.location.href = genericIntent;
+      } catch {
+        // ignore
+      }
     }
   }, []);
+
+  // Disparo automático ao abrir o canal no Android / Fire Stick
+  useEffect(() => {
+    if (channel && isAndroidOrFireStick) {
+      const timer = setTimeout(() => {
+        openInMxPlayer(channel.url, channel.name);
+      }, 350);
+      return () => clearTimeout(timer);
+    }
+  }, [channel?.url, isAndroidOrFireStick, openInMxPlayer]);
 
   // 3. AUTO-PLAY NO IFRAME (timeout 1200ms após carregar o canal para disparar comandos de play)
   useEffect(() => {
@@ -519,20 +542,8 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
           </div>
         </div>
 
-        {/* Lado Direito: Botão MX Player + Recarregar + Tela Cheia */}
+        {/* Lado Direito: Recarregar + Tela Cheia */}
         <div className="flex items-center space-x-2 shrink-0">
-          {/* BOTÃO MX PLAYER (DESTAQUE PARA FIRESTICK / ANDROID) */}
-          <button
-            type="button"
-            onClick={() => openInMxPlayer(channel.url, channel.name)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-[#540b0b] hover:bg-[#6b0f0f] border border-red-500/40 hover:border-red-400 text-white text-xs font-bold shadow-lg transition active:scale-95 cursor-pointer outline-none ring-1 ring-red-500/30"
-            title="Abrir diretamente no aplicativo do MX Player no Fire TV Stick / Android"
-          >
-            <Tv className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-300" />
-            <span className="hidden sm:inline">Abrir no MX Player</span>
-            <span className="sm:hidden">MX Player</span>
-          </button>
-
           {/* Recarregar */}
           <button
             type="button"
@@ -555,11 +566,11 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
         </div>
       </header>
 
-      {/* Aviso de Disparo do MX Player (Toast rápido) */}
+      {/* Aviso de Disparo Automático no Player (Toast rápido) */}
       {mxTriggeredNotice && (
         <div className="absolute top-20 left-1/2 -translate-x-1/2 z-40 bg-black/85 border border-red-500/80 px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xl backdrop-blur-md animate-in fade-in duration-200">
           <Tv className="w-4 h-4 text-red-400 animate-bounce" />
-          <span>Abrindo transmissão no MX Player...</span>
+          <span>Iniciando transmissão no player...</span>
         </div>
       )}
 
@@ -605,29 +616,17 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
               showControls ? 'opacity-100 translate-y-0' : 'opacity-70 hover:opacity-100'
             }`}
           >
-            <div className="flex items-center gap-2 bg-black/85 backdrop-blur-md border border-white/20 p-2 rounded-xl shadow-2xl">
-              <a
-                href={channel.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => soundService.playSelect()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1e2330] hover:bg-[#2c3345] text-white text-xs font-bold border border-white/15 transition shadow cursor-pointer"
-                title="Abrir em Nova Aba caso o navegador bloqueie o iframe por cabeçalho X-Frame-Options"
-              >
-                <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Abrir em Nova Aba</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={() => openInMxPlayer(channel.url, channel.name)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/90 hover:bg-red-600 text-white text-xs font-bold border border-red-500/40 transition shadow cursor-pointer"
-                title="Abrir no MX Player no Android / Fire TV Stick via Android Intent"
-              >
-                <Tv className="w-3.5 h-3.5 text-white" />
-                <span>Abrir no MX Player</span>
-              </button>
-            </div>
+            <a
+              href={channel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundService.playSelect()}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/80 hover:bg-black/95 text-white text-xs font-bold border border-white/20 transition shadow-2xl cursor-pointer backdrop-blur-md"
+              title="Abrir em Nova Aba caso o navegador bloqueie o iframe por cabeçalho X-Frame-Options"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Abrir em Nova Aba</span>
+            </a>
           </div>
         )}
 
@@ -638,23 +637,26 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
             <h3 className="text-white font-bold text-lg mb-1">Transmissão Indisponível</h3>
             <p className="text-slate-300 text-xs sm:text-sm max-w-md mb-4">{errorMessage}</p>
             <div className="flex flex-wrap gap-2 justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setHasError(false);
+                  setReloadKey((k) => k + 1);
+                }}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-white/20 transition cursor-pointer flex items-center gap-1.5"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-white" />
+                Recarregar Transmissão
+              </button>
               <a
                 href={channel.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-white/20 transition cursor-pointer flex items-center gap-1.5"
+                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
                 Abrir em Nova Aba
               </a>
-              <button
-                type="button"
-                onClick={() => openInMxPlayer(channel.url, channel.name)}
-                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5"
-              >
-                <Tv className="w-3.5 h-3.5 text-white" />
-                Abrir no MX Player
-              </button>
             </div>
           </div>
         )}
