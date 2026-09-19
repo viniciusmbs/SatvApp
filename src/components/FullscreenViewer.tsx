@@ -39,6 +39,7 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const mpegtsPlayerRef = useRef<mpegts.Player | null>(null);
   const hideTimerRef = useRef<any>(null);
@@ -55,6 +56,11 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [mxTriggeredNotice, setMxTriggeredNotice] = useState(false);
 
+  // 1. DETECÇÃO DE TIPO DE TRANSMISSÃO
+  const isHls = Boolean(channel?.url && (channel.url.includes('.m3u8') || channel.url.includes('/hls/')));
+  const isMpegTs = Boolean(channel?.url && (channel.url.includes('.ts') || channel.url.includes(':80/')));
+  const isDirectMedia = isHls || isMpegTs;
+
   // 1. DETECÇÃO DE DISPOSITIVO (Fire Stick / Android TV / Mobile Android)
   const isAndroidOrFireStick = typeof navigator !== 'undefined' && /Android|AFT|Silk|FireTV/i.test(navigator.userAgent);
 
@@ -69,13 +75,10 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     }, 4000);
   }, []);
 
-  // 2. DISPARO DO INTENT DO MX PLAYER (FIRESTICK / ANDROID)
+  // DISPARO DO INTENT DO MX PLAYER (FIRESTICK / ANDROID)
   const openInMxPlayer = useCallback((streamUrl: string, channelName: string) => {
     soundService.playSelect();
     const mxIntent = `intent:${streamUrl}#Intent;package=com.mxtech.videoplayer.ad;type=video/*;S.title=${encodeURIComponent(
-      channelName
-    )};end`;
-    const genericIntent = `intent:${streamUrl}#Intent;action=android.intent.action.VIEW;type=video/*;S.title=${encodeURIComponent(
       channelName
     )};end`;
 
@@ -84,28 +87,26 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
 
     try {
       window.location.href = mxIntent;
-      // Fallback para intent genérico se o pacote do MX Player ad não responder
-      setTimeout(() => {
-        try {
-          window.location.href = genericIntent;
-        } catch {
-          // ignore
-        }
-      }, 1200);
     } catch {
-      window.location.href = genericIntent;
+      // ignore
     }
   }, []);
 
-  // Disparo automático no MX Player se estiver em dispositivo Android / Firestick
+  // 3. AUTO-PLAY NO IFRAME (timeout 1200ms após carregar o canal para disparar comandos de play)
   useEffect(() => {
-    if (channel && isAndroidOrFireStick) {
-      const timer = setTimeout(() => {
-        openInMxPlayer(channel.url, channel.name);
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [channel?.url, isAndroidOrFireStick, openInMxPlayer]);
+    if (!channel || isDirectMedia) return;
+
+    const timer = setTimeout(() => {
+      try {
+        iframeRef.current?.contentWindow?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        iframeRef.current?.contentWindow?.postMessage({ type: 'play' }, '*');
+      } catch {
+        // ignore cross-origin postMessage restriction
+      }
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [channel?.url, reloadKey, isDirectMedia]);
 
   // Limpeza de players de vídeo anteriores
   const cleanupPlayers = useCallback(() => {
@@ -156,28 +157,11 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
       }
 
       // 2. Detectar MPEG-TS (.ts)
-      if (cleanUrl.includes('.ts') || cleanUrl.includes('/mpegts/') || cleanUrl.includes('/ts/')) {
+      if (cleanUrl.includes('.ts') || cleanUrl.includes(':80/')) {
         return 'mpegts';
       }
 
-      // 3. Detectar páginas embed / iframes / reprodutores web
-      if (
-        cleanUrl.includes('/embed/') ||
-        cleanUrl.includes('player.') ||
-        cleanUrl.includes('.html') ||
-        cleanUrl.includes('youtube.com') ||
-        cleanUrl.includes('dailymotion') ||
-        cleanUrl.includes('stream') ||
-        cleanUrl.includes('canais')
-      ) {
-        return 'embed';
-      }
-
-      // 4. Default para HLS caso seja fluxo de IPTV tradicional
-      if (cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://')) {
-        return 'hls';
-      }
-
+      // 3. Qualquer outro provedor web / embed (rdcanais, rdse, embedtv, etc)
       return 'embed';
     },
     []
@@ -191,6 +175,12 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     setHasError(false);
     setErrorMessage('');
     wakeControls();
+
+    // Se não for mídia direta (.m3u8 / .ts), não inicializa players de vídeo HTML5
+    if (!isDirectMedia) {
+      setActiveEngine('EMBED');
+      return;
+    }
 
     const targetEngine = determineEngine(channel.url, engine);
     setActiveEngine(targetEngine.toUpperCase());
@@ -577,15 +567,16 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
       {/* 2. ÁREA PRINCIPAL DE VÍDEO (MOTOR HÍBRIDO HLS / TS / EMBED) */}
       {/* ============================================================ */}
       <main className="flex-1 w-full h-full relative bg-black flex items-center justify-center">
-        {/* Caso seja Embed/Iframe (com proteção sandbox contra popups) */}
-        {currentEngineType === 'embed' ? (
+        {/* Caso isDirectMedia seja falso, NÃO renderize a tag <video>. Renderize um <iframe> ocupando 100% da tela */}
+        {!isDirectMedia ? (
           <iframe
+            ref={iframeRef}
             key={`frame-${channel.url}-${reloadKey}`}
             src={channel.url}
             title={channel.name}
             className="w-full h-full border-0 bg-black"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-            sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+            allow="autoplay *; fullscreen *; encrypted-media *; picture-in-picture *"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
             allowFullScreen
             referrerPolicy="no-referrer"
           />
@@ -601,16 +592,43 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             onError={() => {
-              // Em caso de erro na reprodução de mídia direta, alternar suavemente para embed
-              if (engine === 'auto') {
-                setActiveEngine('EMBED');
-                setEngine('embed');
-              } else {
-                setHasError(true);
-                setErrorMessage('Não foi possível carregar a transmissão neste formato.');
-              }
+              setHasError(true);
+              setErrorMessage('Não foi possível carregar a transmissão direta.');
             }}
           />
+        )}
+
+        {/* Botão flutuante discreto de contingência para canais Embed */}
+        {!isDirectMedia && (
+          <div
+            className={`absolute bottom-20 right-4 z-40 transition-all duration-300 ${
+              showControls ? 'opacity-100 translate-y-0' : 'opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center gap-2 bg-black/85 backdrop-blur-md border border-white/20 p-2 rounded-xl shadow-2xl">
+              <a
+                href={channel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => soundService.playSelect()}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1e2330] hover:bg-[#2c3345] text-white text-xs font-bold border border-white/15 transition shadow cursor-pointer"
+                title="Abrir em Nova Aba caso o navegador bloqueie o iframe por cabeçalho X-Frame-Options"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Abrir em Nova Aba</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => openInMxPlayer(channel.url, channel.name)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/90 hover:bg-red-600 text-white text-xs font-bold border border-red-500/40 transition shadow cursor-pointer"
+                title="Abrir no MX Player no Android / Fire TV Stick via Android Intent"
+              >
+                <Tv className="w-3.5 h-3.5 text-white" />
+                <span>Abrir no MX Player</span>
+              </button>
+            </div>
+          </div>
         )}
 
         {/* Mensagem de Erro com Ação de Recuperação */}
@@ -620,18 +638,21 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
             <h3 className="text-white font-bold text-lg mb-1">Transmissão Indisponível</h3>
             <p className="text-slate-300 text-xs sm:text-sm max-w-md mb-4">{errorMessage}</p>
             <div className="flex flex-wrap gap-2 justify-center">
-              <button
-                type="button"
-                onClick={() => setEngine('embed')}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-white/20 transition cursor-pointer"
+              <a
+                href={channel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-white/20 transition cursor-pointer flex items-center gap-1.5"
               >
-                Tentar Modo Navegador (Iframe)
-              </button>
+                <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+                Abrir em Nova Aba
+              </a>
               <button
                 type="button"
                 onClick={() => openInMxPlayer(channel.url, channel.name)}
-                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-lg transition cursor-pointer"
+                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5"
               >
+                <Tv className="w-3.5 h-3.5 text-white" />
                 Abrir no MX Player
               </button>
             </div>
