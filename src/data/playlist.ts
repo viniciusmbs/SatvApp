@@ -1,48 +1,48 @@
 export const m3uPlaylist = `#EXTM3U
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Band
+#EXTINF:-1 group-title="ABERTOS",Band
 https://alerquina54105.embedtv.lat/bandsp
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Band SP
+#EXTINF:-1 group-title="ABERTOS",Band SP
 https://alerquina54105.embedtv.lat/bandsp
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",INTEGRAÇÃO JUIZ DE FORA 
+#EXTINF:-1 group-title="ABERTOS",INTEGRAÇÃO JUIZ DE FORA 
 http://tjtor8411.com:80/Osiel123/Felicidade321/72068.ts
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Globo MG
+#EXTINF:-1 group-title="ABERTOS",Globo MG
 https://rdcanais.net/globomg
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Globo ES
+#EXTINF:-1 group-title="ABERTOS",Globo ES
 https://rdcanais.net/globoes
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Globo RJ
+#EXTINF:-1 group-title="ABERTOS",Globo RJ
 https://rdcanais.net/globorj
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Globo SP
+#EXTINF:-1 group-title="ABERTOS",Globo SP
 https://rdcanais.net/globosp
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Futura
+#EXTINF:-1 group-title="ABERTOS",Futura
 https://rdcanais.net/futura
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Record MG
+#EXTINF:-1 group-title="ABERTOS",Record MG
 https://alerquina54105.embedtv.lat/recordmg
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Record TV
+#EXTINF:-1 group-title="ABERTOS",Record TV
 https://rdcanais.net/record
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",Rede TV
+#EXTINF:-1 group-title="ABERTOS",Rede TV
 https://rdcanais.net/redetv
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",SBT MG ALTEROSA 
+#EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/brazil/sbt-br.png" group-title="ABERTOS",SBT MG ALTEROSA 
 http://tjtor8411.com:80/Osiel123/Felicidade321/72621.ts
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",SBT
+#EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/brazil/sbt-br.png" group-title="ABERTOS",SBT
 https://rdcanais.net/sbt
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",TV Brasil
+#EXTINF:-1 group-title="ABERTOS",TV Brasil
 https://rdcanais.net/tvbrasil
 
-#EXTINF:-1 group-title="TV ABERTA & REGIONAIS",TV Cultura
+#EXTINF:-1 group-title="ABERTOS",TV Cultura
 https://v1.rdse.rest/tvcultura
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Agro+

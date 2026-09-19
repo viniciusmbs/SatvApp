@@ -50,12 +50,13 @@ const MUSIC_BOX_BRASIL_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.
 // Ícone Reformulado: Rá Tim Bum (Cores Lúdicas, Estrela e Emblema)
 const RA_TIM_BUM_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 80" width="100%" height="100%"><rect width="180" height="80" rx="14" fill="%230c1527"/><rect x="6" y="6" width="168" height="68" rx="10" fill="%23172554" stroke="%23f59e0b" stroke-width="1.8" stroke-opacity="0.6"/><circle cx="38" cy="40" r="22" fill="%23f59e0b"/><polygon points="38,24 42,35 53,35 44,42 48,53 38,46 28,53 32,42 23,35 34,35" fill="%23dc2626"/><text x="112" y="34" font-family="system-ui, sans-serif" font-weight="900" font-size="11" fill="%2338bdf8" text-anchor="middle" letter-spacing="1">TV CULTURA</text><text x="112" y="55" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="16.5" fill="%23fbbf24" text-anchor="middle" letter-spacing="-0.5">RÁ TIM BUM</text></svg>`;
 
-// Ícone Reformulado: SBT Alterosa
-const SBT_ALTEROSA_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 80" width="100%" height="100%"><rect width="180" height="80" rx="14" fill="%230b1329"/><circle cx="48" cy="40" r="22" fill="%232563eb"/><text x="48" y="47" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="17" fill="%23ffffff" text-anchor="middle">SBT</text><text x="122" y="37" font-family="system-ui, sans-serif" font-weight="800" font-size="11" fill="%2394a3b8" letter-spacing="1">MINAS</text><text x="122" y="55" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="15" fill="%2338bdf8">ALTEROSA</text></svg>`;
+// Ícone Oficial: SBT Alterosa (usa o logotipo oficial do SBT)
+const SBT_ALTEROSA_SVG = `${TV_LOGO_BR}sbt-br.png`;
 
 // Geradores de badges numerados oficiais para canais com múltiplas transmissões
+// SporTV 4, 5 e 6 utilizam a imagem oficial do sportv com o número correspondente transparente no estilo SporTV 3
 const makeSporTvBadge = (num: number): string =>
-  `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 80" width="100%" height="100%"><rect width="180" height="80" rx="14" fill="%230b172a"/><path d="M20,44 Q45,20 80,44 Q115,68 160,36" stroke="%2322c55e" stroke-width="3" fill="none" opacity="0.35"/><text x="65" y="49" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-style="italic" font-size="28" fill="%23ffffff" letter-spacing="-1">sportv</text><rect x="126" y="24" width="34" height="32" rx="8" fill="%2322c55e"/><text x="143" y="48" font-family="system-ui, sans-serif" font-weight="900" font-size="22" fill="%23052e16" text-anchor="middle">${num}</text></svg>`;
+  `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 65" width="100%" height="100%"><image href="${TV_LOGO_BR}sportv-br.png" x="2" y="2" width="144" height="60" preserveAspectRatio="xMidYMid meet"/><rect x="150" y="8" width="46" height="48" rx="10" fill="%2322c55e"/><text x="173" y="43" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-weight="900" font-style="italic" font-size="32" fill="%23052e16" text-anchor="middle">${num}</text></svg>`;
 
 const makeDaznBadge = (num: number): string =>
   `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 80" width="100%" height="100%"><rect width="180" height="80" rx="14" fill="%230d1117"/><rect x="18" y="22" width="76" height="36" rx="6" fill="%23f8fafc"/><text x="56" y="48" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="26" fill="%230a0a0a" text-anchor="middle" letter-spacing="-0.5">DAZN</text><circle cx="128" cy="40" r="18" fill="%23facc15"/><text x="128" y="47.5" font-family="system-ui, sans-serif" font-weight="900" font-size="22" fill="%23000000" text-anchor="middle">${num}</text></svg>`;
@@ -242,8 +243,11 @@ export const DEFAULT_LOGOS_MAP: Record<string, string> = {
   'SBT SP': `${TV_LOGO_BR}sbt-br.png`,
   'SBT RJ': `${TV_LOGO_BR}sbt-br.png`,
   'SBT MG ALTEROSA': SBT_ALTEROSA_SVG,
+  'SBT MG ALTEROSA ': SBT_ALTEROSA_SVG,
   'SBT ALTEROSA': SBT_ALTEROSA_SVG,
   'ALTEROSA': SBT_ALTEROSA_SVG,
+  'ALTEROSA TV': SBT_ALTEROSA_SVG,
+  'TV ALTEROSA': SBT_ALTEROSA_SVG,
   'BAND': `${TV_LOGO_BR}band-br.png`,
   'BAND SP': `${TV_LOGO_BR}band-br.png`,
   'BAND RJ': `${TV_LOGO_BR}band-br.png`,

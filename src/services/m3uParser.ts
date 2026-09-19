@@ -236,13 +236,16 @@ export const normalizeCategory = (rawGroup: string, name: string): string => {
     return 'RELIGIOSOS';
   }
 
-  // 8. CANAL (TV Aberta e Geral)
+  // 8. ABERTOS (Canais Abertos e Regionais)
   if (
+    upperGroup.includes('ABERTO') ||
     upperGroup.includes('ABERTA') ||
+    upperGroup.includes('REGIONAL') ||
     upperGroup.includes('CANAIS') ||
     upperGroup.includes('GERAL') ||
     upperName.includes('GLOBO') ||
     upperName.includes('SBT') ||
+    upperName.includes('ALTEROSA') ||
     upperName.includes('BAND') ||
     upperName.includes('RECORD') ||
     upperName.includes('REDE TV') ||
@@ -263,10 +266,14 @@ export const normalizeCategory = (rawGroup: string, name: string): string => {
     upperName.includes('AGRO') ||
     upperName.includes('FUTURA')
   ) {
-    return 'CANAL';
+    return 'ABERTOS';
   }
 
-  return rawGroup.replace(/^CANAIS:\s*/i, '').trim() || 'CANAL';
+  const cleanedGroup = rawGroup.replace(/^CANAIS:\s*/i, '').trim();
+  if (!cleanedGroup || cleanedGroup.toUpperCase() === 'CANAL') {
+    return 'ABERTOS';
+  }
+  return cleanedGroup;
 };
 
 export const toHttpsIfPossible = (u?: string): string => {

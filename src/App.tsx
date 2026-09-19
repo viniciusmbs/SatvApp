@@ -7,7 +7,6 @@ import SearchBar from './components/SearchBar';
 import ChannelRows from './components/ChannelRows';
 import ChannelGrid from './components/ChannelGrid';
 import EpgGrid from './components/EpgGrid';
-import Footer from './components/Footer';
 import FullscreenViewer from './components/FullscreenViewer';
 import { MenuModal } from './components/MenuModal';
 import { ExitConfirmModal } from './components/ExitConfirmModal';
@@ -635,9 +634,6 @@ export default function App() {
         onCancel={() => setShowExitConfirm(false)}
         onConfirmExit={handleConfirmExit}
       />
-
-      {/* Clean TV Footer */}
-      <Footer totalChannels={channels.length} favoritesCount={favorites.length} />
 
       {/* Three Dots / Menu List Modal */}
       <MenuModal

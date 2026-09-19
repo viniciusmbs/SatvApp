@@ -4,6 +4,7 @@ import { Channel, GroupedChannels } from '../types';
 import { getChannelLogo, createChannelFallbackBadge } from '../data/channelLogos';
 import { EpgService } from '../services/epgService';
 import { soundService } from '../services/soundService';
+import { sortCategories } from '../services/categoryUtils';
 
 interface EpgGridProps {
   groupedChannels: GroupedChannels;
@@ -16,18 +17,6 @@ interface EpgGridProps {
   statusFilter?: 'all' | 'online' | 'offline';
   onStatusFilterChange?: (status: 'all' | 'online' | 'offline') => void;
 }
-
-const CATEGORY_ORDER: Record<string, number> = {
-  'CANAL': 1,
-  'ESPORTES': 2,
-  'FILMES E SÉRIES': 3,
-  'FILMES & SÉRIES': 3,
-  'NOTÍCIAS': 4,
-  'INFANTIS': 5,
-  'DOCUMENTÁRIOS': 6,
-  'VARIEDADES': 7,
-  'RELIGIOSOS': 8,
-};
 
 const EpgGrid: React.FC<EpgGridProps> = ({
   groupedChannels,
@@ -67,14 +56,8 @@ const EpgGrid: React.FC<EpgGridProps> = ({
     };
   }, []);
 
-  const sortedGroupNames = Object.keys(groupedChannels).sort((a, b) => {
-    const upperA = a.toUpperCase();
-    const upperB = b.toUpperCase();
-    const orderA = CATEGORY_ORDER[upperA] ?? 50;
-    const orderB = CATEGORY_ORDER[upperB] ?? 50;
-    if (orderA !== orderB) return orderA - orderB;
-    return a.localeCompare(b, 'pt-BR');
-  });
+  // Categorias em ordem alfabética estrita, com ABERTOS sempre em primeiro lugar
+  const sortedGroupNames = sortCategories(Object.keys(groupedChannels));
 
   const totalChannelsCount = Object.values(groupedChannels).reduce(
     (acc, list) => acc + list.length,
@@ -184,16 +167,13 @@ const EpgGrid: React.FC<EpgGridProps> = ({
 
         return (
           <section key={`epg-group-${groupName}`} className="space-y-3">
-            {/* Category title */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            {/* Category title - Limpo sem contadores */}
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-1.5">
               <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full inline-block shadow-sm" style={{ backgroundColor: '#3d0606' }} />
-                <h2 className="text-sm sm:text-base font-bold text-gray-100 tracking-wide uppercase">
+                <span className="w-1.5 h-1.5 rounded-full inline-block bg-emerald-500 shadow-sm shadow-emerald-500/50" />
+                <h2 className="text-xs sm:text-sm font-semibold text-zinc-200 tracking-wider uppercase">
                   {groupName}
                 </h2>
-                <span className="text-xs text-slate-400 font-medium px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700/50">
-                  {channels.length} canais
-                </span>
               </div>
             </div>
 
