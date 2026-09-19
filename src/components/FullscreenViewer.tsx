@@ -75,12 +75,14 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     }, 4000);
   }, []);
 
-  // DISPARO AUTOMÁTICO DO INTENT DO MX PLAYER (FIRESTICK / ANDROID)
+  // Abrir direto no MX Player no Fire TV Stick / Android
   const openInMxPlayer = useCallback((streamUrl: string, channelName: string) => {
-    const mxIntent = `intent:${streamUrl}#Intent;package=com.mxtech.videoplayer.ad;type=video/*;S.title=${encodeURIComponent(
+    soundService.playSelect();
+    const cleanUrl = streamUrl.trim();
+    const mxIntent = `intent:${cleanUrl}#Intent;package=com.mxtech.videoplayer.ad;type=video/*;S.title=${encodeURIComponent(
       channelName
     )};end`;
-    const genericIntent = `intent:${streamUrl}#Intent;action=android.intent.action.VIEW;type=video/*;S.title=${encodeURIComponent(
+    const genericIntent = `intent:${cleanUrl}#Intent;action=android.intent.action.VIEW;type=video/*;S.title=${encodeURIComponent(
       channelName
     )};end`;
 
@@ -93,15 +95,11 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
         try {
           window.location.href = genericIntent;
         } catch {
-          // ignore
+          window.open(cleanUrl, '_blank');
         }
       }, 1000);
     } catch {
-      try {
-        window.location.href = genericIntent;
-      } catch {
-        // ignore
-      }
+      window.open(cleanUrl, '_blank');
     }
   }, []);
 
@@ -542,8 +540,20 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
           </div>
         </div>
 
-        {/* Lado Direito: Recarregar + Tela Cheia */}
+        {/* Lado Direito: MX Player + Recarregar + Tela Cheia */}
         <div className="flex items-center space-x-2 shrink-0">
+          {/* Botão MX Player Direto */}
+          <button
+            type="button"
+            onClick={() => openInMxPlayer(channel.url, channel.name)}
+            className="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-purple-800/90 hover:bg-purple-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg border border-purple-500/40 cursor-pointer"
+            title="Abrir no MX Player (Firestick / Android)"
+          >
+            <ExternalLink className="w-4 h-4 text-purple-300" />
+            <span className="hidden sm:inline">Abrir no MX Player</span>
+            <span className="sm:hidden">MX Player</span>
+          </button>
+
           {/* Recarregar */}
           <button
             type="button"
@@ -568,8 +578,8 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
 
       {/* Aviso de Disparo Automático no Player (Toast rápido) */}
       {mxTriggeredNotice && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-40 bg-black/85 border border-red-500/80 px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xl backdrop-blur-md animate-in fade-in duration-200">
-          <Tv className="w-4 h-4 text-red-400 animate-bounce" />
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-40 bg-black/85 border border-purple-500/80 px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xl backdrop-blur-md animate-in fade-in duration-200">
+          <Tv className="w-4 h-4 text-purple-400 animate-bounce" />
           <span>Iniciando transmissão no player...</span>
         </div>
       )}
@@ -578,16 +588,15 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
       {/* 2. ÁREA PRINCIPAL DE VÍDEO (MOTOR HÍBRIDO HLS / TS / EMBED) */}
       {/* ============================================================ */}
       <main className="flex-1 w-full h-full relative bg-black flex items-center justify-center">
-        {/* Caso isDirectMedia seja falso, NÃO renderize a tag <video>. Renderize um <iframe> ocupando 100% da tela */}
+        {/* Caso isDirectMedia seja falso, NÃO renderize a tag <video>. Renderize um <iframe> ocupando 100% da tela SEM SANDBOX */}
         {!isDirectMedia ? (
           <iframe
             ref={iframeRef}
             key={`frame-${channel.url}-${reloadKey}`}
             src={channel.url}
             title={channel.name}
-            className="w-full h-full border-0 bg-black"
+            className="w-full h-full border-0 absolute inset-0 z-0 bg-black"
             allow="autoplay *; fullscreen *; encrypted-media *; picture-in-picture *"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
             allowFullScreen
             referrerPolicy="no-referrer"
           />
@@ -647,6 +656,14 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
               >
                 <RefreshCw className="w-3.5 h-3.5 text-white" />
                 Recarregar Transmissão
+              </button>
+              <button
+                type="button"
+                onClick={() => openInMxPlayer(channel.url, channel.name)}
+                className="px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white text-xs font-bold rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Abrir no MX Player
               </button>
               <a
                 href={channel.url}
