@@ -1,10 +1,10 @@
 export const m3uPlaylist = `#EXTM3U
 
 #EXTINF:-1 group-title="ABERTOS",Band
-https://rdcanais.cc//bandsp
+https://rdcanais.cc/bandsp
 
 #EXTINF:-1 group-title="ABERTOS",Band SP
-https://rdcanais.cc//bandsp
+https://rdcanais.cc/bandsp
 
 #EXTINF:-1 group-title="ABERTOS",INTEGRAÇÃO JUIZ DE FORA 
 http://tjtor8411.com:80/Osiel123/Felicidade321/72068.ts
@@ -25,7 +25,7 @@ https://rdcanais.cc/globosp
 https://rdcanais.cc/futura
 
 #EXTINF:-1 group-title="ABERTOS",Record MG
-https://rdcanais.cc//recordmg
+https://rdcanais.cc/recordmg
 
 #EXTINF:-1 group-title="ABERTOS",Record TV
 https://rdcanais.cc/record
@@ -61,22 +61,22 @@ https://v1.rdse.rest/curta
 https://rdcanais.cc/discoverychannel
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Discovery H&H
-https://rdcanais.cc//discoveryhh
+https://rdcanais.cc/discoveryhh
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Discovery Science
-https://rdcanais.cc//discoveryscience
+https://rdcanais.cc/discoveryscience
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Discovery Theater
 https://rdcanais.cc/discoverytheater
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Discovery Turbo
-https://rdcanais.cc//discoveryturbo
+https://rdcanais.cc/discoveryturbo
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Discovery World
-https://rdcanais.cc//discoveryworld
+https://rdcanais.cc/discoveryworld
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Dog TV
-https://rdcanais.cc//dogtv
+https://rdcanais.cc/dogtv
 
 #EXTINF:-1 group-title="DOCUMENTÁRIOS",Fish TV
 https://v1.rdse.rest/fishtv
@@ -112,7 +112,7 @@ http://up.kiwi/351921603109/34939156/1320.ts
 https://rdcanais.cc/bandsports
 
 #EXTINF:-1 group-title="ESPORTES & PPV",Combate
-https://rdcanais.cc//combate
+https://rdcanais.cc/combate
 
 #EXTINF:-1 group-title="ESPORTES & PPV",DAZN
 https://v1.rdse.rest/dazn
@@ -142,16 +142,16 @@ https://rdcanais.cc/espn3
 https://rdcanais.cc/espn4
 
 #EXTINF:-1 group-title="ESPORTES & PPV",ESPN 5
-https://rdcanais.cc//espn5
+https://rdcanais.cc/espn5
 
 #EXTINF:-1 group-title="ESPORTES & PPV",ESPN 6
-https://rdcanais.cc//espn6
+https://rdcanais.cc/espn6
 
 #EXTINF:-1 group-title="ESPORTES & PPV",Fox Sports
-https://rdcanais.cc//foxsports
+https://rdcanais.cc/foxsports
 
 #EXTINF:-1 group-title="ESPORTES & PPV",Fox Sports 2
-https://rdcanais.cc//foxsports2
+https://rdcanais.cc/foxsports2
 
 #EXTINF:-1 group-title="ESPORTES & PPV",Premiere
 https://rdcanais.cc/premiere
@@ -199,7 +199,7 @@ https://v1.rdse.rest/sporttv6
 https://rdcanais.cc/canaloff
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",A&E
-https://rdcanais.cc//ae
+https://rdcanais.cc/ae
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",AMC
 https://rdcanais.cc/amc
@@ -214,31 +214,31 @@ https://rdcanais.cc/axn
 https://rdcanais.cc/canalbrasil
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",Cinemax
-https://rdcanais.cc//cinemax
+https://rdcanais.cc/cinemax
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO
-https://rdcanais.cc//hbo
+https://rdcanais.cc/hbo
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO 2
-https://rdcanais.cc//hbo2
+https://rdcanais.cc/hbo2
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Family
-https://rdcanais.cc//hbofamily
+https://rdcanais.cc/hbofamily
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Mundi
-https://rdcanais.cc//hbomundi
+https://rdcanais.cc/hbomundi
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Plus
-https://rdcanais.cc//hboplus
+https://rdcanais.cc/hboplus
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Pop
-https://rdcanais.cc//hbopop
+https://rdcanais.cc/hbopop
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Signature
 https://v1.rdse.rest/hbosignature
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",HBO Xtreme
-https://rdcanais.cc//hboxtreme
+https://rdcanais.cc/hboxtreme
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",Megapix
 https://rdcanais.cc/megapix
@@ -247,13 +247,13 @@ https://rdcanais.cc/megapix
 http://up.kiwi/351921603109/34939156/829.ts
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",Sony Channel
-https://rdcanais.cc//sonychannel
+https://rdcanais.cc/sonychannel
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",Space
 https://rdcanais.cc/space
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",TCM
-https://rdcanais.cc//tcm
+https://rdcanais.cc/tcm
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",TNT
 https://rdcanais.cc/tnt
@@ -283,13 +283,13 @@ https://rdcanais.cc/telecinetouch
 https://rdcanais.cc/studiouniversal
 
 #EXTINF:-1 group-title="FILMES & SÉRIES",Warner Channel
-https://rdcanais.cc//warnerchannel
+https://rdcanais.cc/warnerchannel
 
 #EXTINF:-1 group-title="INFANTIS",Cartoon Network
 https://rdcanais.cc/cartoonnetwork
 
 #EXTINF:-1 group-title="INFANTIS",Cartoonito
-https://rdcanais.cc//cartoonito
+https://rdcanais.cc/cartoonito
 
 #EXTINF:-1 group-title="INFANTIS",Discovery Kids
 https://rdcanais.cc/discoverykids
@@ -316,13 +316,13 @@ https://v1.rdse.rest/tooncast
 http://up.kiwi/351921603109/34939156/296384.ts
 
 #EXTINF:-1 group-title="INFANTIS",Zoomoo
-https://rdcanais.cc//zoomoo
+https://rdcanais.cc/zoomoo
 
 #EXTINF:-1 group-title="MÚSICA",Bis
 https://rdcanais.cc/bis
 
 #EXTINF:-1 group-title="MÚSICA",MTV
-https://rdcanais.cc//mtv
+https://rdcanais.cc/mtv
 
 #EXTINF:-1 group-title="MÚSICA",MTV Live
 https://v1.rdse.rest/mtv
@@ -331,7 +331,7 @@ https://v1.rdse.rest/mtv
 https://v1.rdse.rest/musicbox
 
 #EXTINF:-1 group-title="NOTÍCIAS",BandNews
-https://rdcanais.cc//bandnews
+https://rdcanais.cc/bandnews
 
 #EXTINF:-1 group-title="NOTÍCIAS",CNN Brasil
 https://rdcanais.cc/cnnbrasil
@@ -340,22 +340,22 @@ https://rdcanais.cc/cnnbrasil
 https://rdcanais.cc/globonews
 
 #EXTINF:-1 group-title="NOTÍCIAS",Jovem Pan News
-https://rdcanais.cc//jovempan
+https://rdcanais.cc/jovempan
 
 #EXTINF:-1 group-title="NOTÍCIAS",Record News
 https://rdcanais.cc/recordnews
 
 #EXTINF:-1 group-title="RELIGIOSOS",Canção Nova
-https://rdcanais.cc//cancaonova
+https://rdcanais.cc/cancaonova
 
 #EXTINF:-1 group-title="RELIGIOSOS",Gospel Movies
-https://rdcanais.cc//gospelmovies
+https://rdcanais.cc/gospelmovies
 
 #EXTINF:-1 group-title="RELIGIOSOS",Gospel Music
 https://stmv1.srvif.com/gmusic/gmusic/playlist.m3u8
 
 #EXTINF:-1 group-title="RELIGIOSOS",Novo Tempo
-https://rdcanais.cc//novotempo
+https://rdcanais.cc/novotempo
 
 #EXTINF:-1 group-title="RELIGIOSOS",Rede Gospel
 https://v1.rdse.rest/redegospel
@@ -367,19 +367,19 @@ https://v1.rdse.rest/redeseculo21
 https://v1.rdse.rest/redesuper
 
 #EXTINF:-1 group-title="RELIGIOSOS",Rede Vida
-https://rdcanais.cc//redevida
+https://rdcanais.cc/redevida
 
 #EXTINF:-1 group-title="RELIGIOSOS",TV Aparecida
-https://rdcanais.cc//aparecida
+https://rdcanais.cc/aparecida
 
 #EXTINF:-1 group-title="RELIGIOSOS",TV Pai Eterno
-https://rdcanais.cc//tvpaieerno
+https://rdcanais.cc/tvpaieerno
 
 #EXTINF:-1 group-title="VARIEDADES",Comedy Central
-https://rdcanais.cc//comedycentral
+https://rdcanais.cc/comedycentral
 
 #EXTINF:-1 group-title="VARIEDADES",E!
-https://rdcanais.cc//ei
+https://rdcanais.cc/ei
 
 #EXTINF:-1 group-title="VARIEDADES",GNT
 https://rdcanais.cc/gnt
