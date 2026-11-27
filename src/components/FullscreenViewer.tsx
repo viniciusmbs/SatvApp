@@ -103,15 +103,15 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     }
   }, []);
 
-  // Disparo automático ao abrir o canal no Android / Fire Stick
+  // Disparo automático ao abrir o canal no Android / Fire Stick (apenas para streams diretos .m3u8 / .ts)
   useEffect(() => {
-    if (channel && isAndroidOrFireStick) {
+    if (channel && isAndroidOrFireStick && isDirectMedia) {
       const timer = setTimeout(() => {
         openInMxPlayer(channel.url, channel.name);
       }, 350);
       return () => clearTimeout(timer);
     }
-  }, [channel?.url, isAndroidOrFireStick, openInMxPlayer]);
+  }, [channel?.url, isAndroidOrFireStick, isDirectMedia, openInMxPlayer]);
 
   // 3. AUTO-PLAY NO IFRAME (timeout 1200ms após carregar o canal para disparar comandos de play)
   useEffect(() => {
