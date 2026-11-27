@@ -1,10 +1,10 @@
 export const m3uPlaylist = `#EXTM3U
 
 #EXTINF:-1 group-title="ABERTOS",Band
-https://rdcanais.cc/bandsp
+https://rdcanais.cc/band
 
 #EXTINF:-1 group-title="ABERTOS",Band SP
-https://rdcanais.cc/bandsp
+https://rdcanais.cc/band
 
 #EXTINF:-1 group-title="ABERTOS",INTEGRAÇÃO JUIZ DE FORA 
 http://tjtor8411.com:80/Osiel123/Felicidade321/72068.ts
@@ -25,7 +25,7 @@ https://rdcanais.cc/globosp
 https://rdcanais.cc/futura
 
 #EXTINF:-1 group-title="ABERTOS",Record MG
-https://rdcanais.cc/recordmg
+https://rdcanais.cc/record
 
 #EXTINF:-1 group-title="ABERTOS",Record TV
 https://rdcanais.cc/record
@@ -325,10 +325,7 @@ https://rdcanais.cc/bis
 https://rdcanais.cc/mtv
 
 #EXTINF:-1 group-title="MÚSICA",MTV Live
-https://v1.rdse.rest/mtv
-
-#EXTINF:-1 group-title="MÚSICA",Music Box Brasil
-https://v1.rdse.rest/musicbox
+https://sinalpublicoetv.vercel.app/?id=mtv
 
 #EXTINF:-1 group-title="NOTÍCIAS",BandNews
 https://rdcanais.cc/bandnews
@@ -346,7 +343,7 @@ https://rdcanais.cc/jovempan
 https://rdcanais.cc/recordnews
 
 #EXTINF:-1 group-title="RELIGIOSOS",Canção Nova
-https://rdcanais.cc/cancaonova
+https://w1.ebtv.lat/cancaonova
 
 #EXTINF:-1 group-title="RELIGIOSOS",Gospel Movies
 https://rdcanais.cc/gospelmovies
@@ -373,13 +370,13 @@ https://rdcanais.cc/redevida
 https://rdcanais.cc/aparecida
 
 #EXTINF:-1 group-title="RELIGIOSOS",TV Pai Eterno
-https://rdcanais.cc/tvpaieerno
+https://sinalpublicoetv.vercel.app/?id=tvpaieterno
 
 #EXTINF:-1 group-title="VARIEDADES",Comedy Central
 https://rdcanais.cc/comedycentral
 
 #EXTINF:-1 group-title="VARIEDADES",E!
-https://rdcanais.cc/ei
+https://rdcanais.cc/ae
 
 #EXTINF:-1 group-title="VARIEDADES",GNT
 https://rdcanais.cc/gnt
@@ -391,9 +388,9 @@ https://rdcanais.cc/multishow
 https://rdcanais.cc/tntnovelas
 
 #EXTINF:-1 group-title="VARIEDADES",Viva
-https://v1.rdse.rest/globoplaynovelas
+https://rdcanais.cc/globoplaynovelas
 
 #EXTINF:-1 group-title="VARIEDADES",Woohoo
-https://v1.rdse.rest/woohoo`;
+https://rdcanais.cc/woohoo`;
 
 export const DEFAULT_PLAYLIST = m3uPlaylist;
