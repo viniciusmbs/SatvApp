@@ -113,7 +113,7 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
     }
   }, [channel?.url, isAndroidOrFireStick, isDirectMedia, openInMxPlayer]);
 
-  // 3. AUTO-PLAY NO IFRAME (timeout 1200ms após carregar o canal para disparar comandos de play)
+  // 3. AUTO-PLAY NO IFRAME (postMessage + toque nativo no Android WebView para players com botão central)
   useEffect(() => {
     if (!channel || isDirectMedia) return;
 
@@ -126,7 +126,22 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
       }
     }, 1200);
 
-    return () => clearTimeout(timer);
+    const isSinalEmbed = /sinalpublico|sinaldvd/i.test(channel.url);
+    const tapTimer = isSinalEmbed
+      ? setTimeout(() => {
+          try {
+            const androidBridge = (window as unknown as { Android?: { tapPlayerCenter?: () => void } }).Android;
+            androidBridge?.tapPlayerCenter?.();
+          } catch {
+            // ignore
+          }
+        }, 2400)
+      : null;
+
+    return () => {
+      clearTimeout(timer);
+      if (tapTimer) clearTimeout(tapTimer);
+    };
   }, [channel?.url, reloadKey, isDirectMedia]);
 
   // Limpeza de players de vídeo anteriores
@@ -598,7 +613,7 @@ export const FullscreenViewer: React.FC<FullscreenViewerProps> = ({
             className="w-full h-full border-0 absolute inset-0 z-0 bg-black"
             allow="autoplay *; fullscreen *; encrypted-media *; picture-in-picture *"
             allowFullScreen
-            referrerPolicy="no-referrer"
+            referrerPolicy={/sinalpublico|sinaldvd/i.test(channel.url) ? 'origin' : 'no-referrer'}
           />
         ) : (
           /* Elemento de Vídeo HTML5 acoplado com HLS.js, MPEGTS.js ou Nativo */
